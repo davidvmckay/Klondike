@@ -47,9 +47,14 @@ namespace Klondike
         protected override void Start(IAppBuilder app, IContainer container)
         {
             var pathUtility = container.Resolve<IVirtualPathUtility>();
-            app.UseFallbackFile(pathUtility.MapPath("index.html"), new PathString("/api"), new PathString("/assets"));
+            app.UseFallbackFile(pathUtility.MapPath("~/index.html"), new PathString("/api"), new PathString("/assets"));
 
             base.Start(app, container);
+        }
+
+        protected override HttpConfiguration CreateHttpConfiguration()
+        {
+            return new HttpConfiguration(new HttpRouteCollection(GlobalConfiguration.Configuration.VirtualPathRoot));
         }
 
         protected override IContainer CreateContainer(IAppBuilder app)
